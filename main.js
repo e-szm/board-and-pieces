@@ -1,55 +1,66 @@
 class Application {
   constructor() {}
 
-  init() {
-    const ctaBtnContEl = document.querySelector(".input-btn-container--cta");
+  //////////////////////////////////////////////////////
+  // INITIALIZE APPLICATION
+  //////////////////////////////////////////////////////
 
-    const beginBtnEl = document.createElement("button");
-    beginBtnEl.textContent = "Begin";
-    beginBtnEl.classList.add("btn", "btn--cta");
-    beginBtnEl.dataset.handler = "handleBeginClick";
-    ctaBtnContEl.insertAdjacentElement("beforeend", beginBtnEl);
-
-    const ctaEl = document.querySelector(".cta");
-    ctaEl.addEventListener("click", this.handleCTAClicks.bind(this));
+  beginListening() {
+    document
+      .querySelector("[data-steps]")
+      .addEventListener("click", this.handleCTAClicks.bind(this));
   }
 
-  newElement() {}
+  init() {
+    this.nextStep();
+    this.beginListening();
+  }
+
+  //////////////////////////////////////////////////////
+  // USER INTERFACE
+  //////////////////////////////////////////////////////
+
+  nextStep() {
+    const stepListEl = [...document.querySelectorAll("[data-step]")];
+    const curStepNum = stepListEl.findIndex((step) =>
+      step.classList.contains("step--active")
+    );
+
+    if (curStepNum >= 0)
+      stepListEl[curStepNum].classList.remove("step--active");
+    stepListEl[curStepNum + 1]?.classList.add("step--active");
+  }
+
+  //////////////////////////////////////////////////////
+  // EVENT HANDLERS
+  //////////////////////////////////////////////////////
 
   handleCTAClicks(e) {
     if (e.target.nodeName !== "BUTTON") return;
-    this[e.target.dataset.handler]();
+    if (e.target.hasAttribute("data-next")) this.handleNextClick();
+    if (e.target.hasAttribute("data-begin")) this.handleBeginClick(e);
   }
 
-  handleBeginClick() {
-    const ctaBtnContEl = document.querySelector(".input-btn-container--cta");
-    const beginBtnEl = document.querySelector(".btn--cta");
-
-    const usernameInputEl = document.createElement("input");
-    usernameInputEl.id = "input--user-1";
-    usernameInputEl.name = "username";
-    usernameInputEl.type = "text";
-    usernameInputEl.placeholder = " ";
-    usernameInputEl.required = true;
-    usernameInputEl.classList.add("fade-out");
-
-    const usernameLabelEl = document.createElement("label");
-    usernameLabelEl.setAttribute("for", "input--user-1");
-    usernameLabelEl.textContent = "Enter your Chess.com username";
-    usernameLabelEl.classList.add("fade-out");
-
-    ctaBtnContEl.insertAdjacentElement("afterbegin", usernameLabelEl);
-    ctaBtnContEl.insertAdjacentElement("afterbegin", usernameInputEl);
+  handleBeginClick(e) {
+    const beginBtnEl = e.target;
+    const usernameInputEl = document.querySelector(".input--user-1");
+    const usernameLabelEl = document.querySelector(".label--user-1");
 
     beginBtnEl.classList.add("btn--inline");
     beginBtnEl.innerHTML = "&rarr;";
-    this.wait(0.5).then(() => {
-      usernameInputEl.classList.remove("fade-out");
-      usernameLabelEl.classList.remove("fade-out");
-      usernameInputEl.classList.remove("fade-in");
-      usernameLabelEl.classList.remove("fade-in");
-    });
+    beginBtnEl.removeAttribute("data-begin");
+    beginBtnEl.setAttribute("data-next", "");
+    usernameInputEl.classList.remove("hidden");
+    usernameLabelEl.classList.remove("hidden");
   }
+
+  handleNextClick() {
+    this.wait(3).then(() => console.log("API Simulated"));
+  }
+
+  //////////////////////////////////////////////////////
+  // UTILITIES
+  //////////////////////////////////////////////////////
 
   wait(sec) {
     return new Promise((resolve) => {
