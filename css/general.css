@@ -26,6 +26,7 @@ Large: 1.8
 - Primary: #e67e22
 #c92a2a
 - Tints:
+#aa3838
 #fdf2e9
 #fae5d3
 #eb984e
@@ -90,6 +91,10 @@ body {
   display: grid;
 }
 
+.grid--1-cols {
+  grid-template-columns: repeat(1, 1fr);
+}
+
 .grid--2-cols {
   grid-template-columns: repeat(2, 1fr);
 }
@@ -116,6 +121,8 @@ body {
   padding: 1.6rem 3.2rem;
 
   cursor: pointer;
+
+  transition: all 500ms;
 }
 
 .btn--cta {
@@ -128,9 +135,6 @@ body {
   color: #333;
   box-shadow: 0 10px 50px rgba(201, 42, 42, 0.45);
   width: 75%;
-
-  transition: box-shadow 300ms, transform 500ms, width 500ms, right 500ms,
-    background 500ms;
 }
 
 .btn--cta:hover {
@@ -150,16 +154,34 @@ body {
   box-shadow: none;
 }
 
+.btn--inline:hover {
+  background-color: #aa3838;
+}
+
 /* //////////////////////////////////// */
 /* GENERAL */
 /* //////////////////////////////////// */
 
 .step {
-  display: none;
+  opacity: 1;
+  pointer-events: none;
+  visibility: hidden;
+
+  transition: transform 500ms ease-in-out, opacity 500ms, visibility 500ms;
 }
 
 .step--active {
-  display: block;
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.step--completed {
+  transform: translateX(-200%);
+}
+
+.step--pending {
+  transform: translateX(200%);
 }
 
 input {
