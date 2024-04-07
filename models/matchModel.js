@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
-const { UUID } = require("bson");
+const Opening = require("./openingModel");
 
 const matchSchema = new mongoose.Schema({
   uuid: {
-    type: UUID,
+    type: mongoose.Schema.Types.UUID,
     required: true,
     unique: true,
+    select: false,
   },
   url: String,
   end_time: Number,
@@ -49,7 +50,7 @@ const matchSchema = new mongoose.Schema({
       ],
     },
     username: String,
-    uuid: UUID,
+    uuid: mongoose.Schema.Types.UUID,
   },
   black: {
     rating: Number,
@@ -74,16 +75,29 @@ const matchSchema = new mongoose.Schema({
       ],
     },
     username: String,
-    uuid: UUID,
+    uuid: mongoose.Schema.Types.UUID,
+  },
+  eco: {
+    code: String,
+    name: String,
   },
 });
 
-matchSchema.statics.appendECO = function (matches) {
+matchSchema.statics.appendECO = async function (matches) {
+  const openingsMap = await Opening.getOpenings();
+  const regex = /ECO \"[A-E][0-9][0-9]\"/;
+
   for (let match of matches) {
-    const re = /ECO \"[A-E][0-9][0-9]\"/;
-    const ecoStart = match.pgn.search(re) + 5;
-    match.eco = match.pgn.slice(ecoStart, ecoStart + 3);
+    const ecoStartIndex = match.pgn.search(regex) + 5;
+    const ecoCode = match.pgn.slice(ecoStartIndex, ecoStartIndex + 3);
+
+    match.eco = {
+      code: ecoCode,
+      name: openingsMap.get(ecoCode),
+    };
   }
 };
+
+matchSchema.statics.removeDuplicates = function (matches) {};
 
 module.exports = mongoose.model("Match", matchSchema);
