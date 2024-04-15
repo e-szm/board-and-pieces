@@ -5,6 +5,7 @@ const openingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  moves: String,
   name: {
     type: String,
     required: true,
@@ -16,7 +17,7 @@ openingSchema.statics.getOpenings = async function () {
   const openingsMap = new Map();
 
   openings.forEach((opening) => {
-    openingsMap.set(opening.code, opening.name);
+    openingsMap.set(opening.code, { name: opening.name, moves: opening.moves });
   });
 
   return openingsMap;

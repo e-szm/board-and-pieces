@@ -2,15 +2,48 @@ const mongoose = require("mongoose");
 const Opening = require("./openingModel");
 
 const matchSchema = new mongoose.Schema({
-  uuid: {
-    type: mongoose.Schema.Types.UUID,
-    required: true,
-    unique: true,
-    select: false,
+  archive_month: {
+    type: String,
+    minLength: 2,
+    maxLength: 2,
   },
-  url: String,
-  end_time: Number,
+  archive_year: {
+    type: String,
+    minLength: 4,
+    maxLength: 4,
+  },
+  color: {
+    type: String,
+    enum: ["white", "black"],
+  },
+  eco: {
+    code: String,
+    name: String,
+    moves: String,
+  },
+  end_time: Date,
+  player_username: String,
   rated: Boolean,
+  result: {
+    type: String,
+    enum: [
+      "win", // Win
+      "checkmated", // Lose
+      "agreed", // Draw
+      "repetition", // Draw
+      "timeout", // Lose
+      "resigned", // Lose
+      "stalemate", // Draw
+      "lose", // Lose
+      "insufficient", // Draw
+      "50move", // Draw
+      "abandoned", // Lose
+      "kingofthehill", // Lose
+      "threecheck", // Lose
+      "timevsinsufficient", // Draw
+      "bughousepartnerlos", // Lose
+    ],
+  },
   rules: {
     type: String,
     enum: [
@@ -27,77 +60,43 @@ const matchSchema = new mongoose.Schema({
     enum: ["daily", "rapid", "blitz", "bullet"],
   },
   time_control: String,
-  white: {
-    rating: Number,
-    result: {
-      type: String,
-      enum: [
-        "win",
-        "checkmated",
-        "agreed",
-        "repetition",
-        "timeout",
-        "resigned",
-        "stalemate",
-        "lose",
-        "insufficient",
-        "50move",
-        "abandoned",
-        "kingofthehill",
-        "threecheck",
-        "timevsinsufficient",
-        "bughousepartnerlos",
-      ],
-    },
-    username: String,
-    uuid: mongoose.Schema.Types.UUID,
-  },
-  black: {
-    rating: Number,
-    result: {
-      type: String,
-      enum: [
-        "win",
-        "checkmated",
-        "agreed",
-        "repetition",
-        "timeout",
-        "resigned",
-        "stalemate",
-        "lose",
-        "insufficient",
-        "50move",
-        "abandoned",
-        "kingofthehill",
-        "threecheck",
-        "timevsinsufficient",
-        "bughousepartnerlos",
-      ],
-    },
-    username: String,
-    uuid: mongoose.Schema.Types.UUID,
-  },
-  eco: {
-    code: String,
-    name: String,
-  },
+  url: String,
 });
 
-matchSchema.statics.appendECO = async function (matches) {
-  const openingsMap = await Opening.getOpenings();
+matchSchema.statics.getECOCode = function (pgn) {
   const regex = /ECO \"[A-E][0-9][0-9]\"/;
-
-  for (let match of matches) {
-    const ecoStartIndex = match.pgn.search(regex) + 5;
-    const ecoCode = match.pgn.slice(ecoStartIndex, ecoStartIndex + 3);
-
-    match.eco = {
-      code: ecoCode,
-      name: openingsMap.get(ecoCode),
-    };
-  }
+  const ecoStartIndex = pgn.search(regex) + 5;
+  return pgn.slice(ecoStartIndex, ecoStartIndex + 3);
 };
 
-matchSchema.statics.removeDuplicates = function (matches) {};
+matchSchema.statics.format = async function (username, matches) {
+  const result = [];
+  const openingsMap = await Opening.getOpenings();
+
+  for (let match of matches) {
+    const color = username === match.white.username ? "white" : "black";
+    const ecoCode = this.getECOCode(match.pgn);
+    const opening = openingsMap.get(ecoCode);
+
+    result.push({
+      color: color,
+      eco: {
+        code: ecoCode,
+        name: opening.name,
+        moves: opening.moves,
+      },
+      end_time: new Date(match.end_time * 1000),
+      player_username: username,
+      rated: match.rated,
+      result: match[color].result,
+      rules: match.rules,
+      time_class: match.time_class,
+      time_control: match.time_control,
+      url: match.url,
+    });
+  }
+
+  return result;
+};
 
 module.exports = mongoose.model("Match", matchSchema);
