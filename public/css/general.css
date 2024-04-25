@@ -143,7 +143,7 @@ body {
 
 .btn--inline {
   position: absolute;
-  bottom: 1px;
+  bottom: 0;
   right: 1px;
   transform: translateX(0);
 
@@ -156,6 +156,39 @@ body {
 
 .btn--inline:hover {
   background-color: #aa3838;
+}
+
+.graph-options {
+  display: flex;
+  column-gap: 20rem;
+}
+
+.options-group {
+  display: flex;
+}
+
+.options-group button:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.options-group button:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.btn--option {
+  color: #333;
+  font-size: 1.6rem;
+  border: 1px solid #ddd;
+  border-radius: 0;
+
+  transition: none;
+}
+
+.btn--option.active {
+  color: #ddd;
+  background-color: #333;
 }
 
 /* //////////////////////////////////// */
@@ -223,6 +256,121 @@ input:focus + label {
   transform: translateY(0);
   top: -22px;
   left: 12px;
+}
+
+/* //////////////////////////////////// */
+/* Data Visualizations (D3) */
+/* //////////////////////////////////// */
+
+.section-dashboard {
+  background-color: #ddd;
+}
+
+.canvas-container {
+  display: flex;
+  justify-content: center;
+}
+
+.canvas-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 10px;
+
+  max-width: 1000px;
+  padding: 3.2rem 0;
+  background-color: #eee;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.canvas {
+  position: relative;
+
+  width: 1000px;
+  height: 400px;
+}
+
+.graph {
+  margin: 5.2rem 1rem 1rem 20rem;
+  padding: 0.02rem; /* 0.00 - 0.10 */
+}
+
+.bar:hover {
+  stroke: #333;
+  stroke-width: 2px;
+}
+
+.axis text {
+  font-family: "Outfit", sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.02rem;
+  stroke: #333;
+  fill: #333;
+  color: rgb(201, 42, 42);
+}
+.legend-rect {
+  width: 2rem;
+  height: 2rem;
+}
+
+.legend-text {
+  font-family: "Outfit", sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.2rem;
+  stroke: #333;
+  fill: #333;
+}
+
+.tooltip-container {
+  position: absolute;
+
+  padding: 12px 24px;
+  width: max-content;
+  transform: translateY(-100%);
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  background-color: #333;
+
+  opacity: 0;
+}
+
+.tooltip {
+  position: relative;
+
+  height: 100%;
+}
+
+.tooltip::before {
+  position: absolute;
+  left: 20px;
+  bottom: -20px;
+  transform: rotate(45deg);
+
+  content: "";
+  width: 18px;
+  height: 18px;
+
+  background-color: #333;
+}
+
+.tooltip-content .opening {
+  color: #f8f8f8;
+  font-size: 2rem;
+  margin-bottom: 0.4rem;
+}
+
+.tooltip-content .moves {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.tooltip-content .metric {
+  color: #f8f8f8;
+  font-size: 2.4rem;
 }
 
 /* //////////////////////////////////// */

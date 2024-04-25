@@ -46,7 +46,12 @@ exports.getOpeningStats = async function (req, res, next) {
     },
     {
       $group: {
-        _id: "$eco.name",
+        _id: {
+          code: "$eco.code",
+          opening: "$eco.name",
+          moves: "$eco.moves",
+          color: "$color",
+        },
         total: { $sum: 1 },
         wins: {
           $sum: {
@@ -101,6 +106,25 @@ exports.getOpeningStats = async function (req, res, next) {
               1,
               0,
             ],
+          },
+        },
+      },
+    },
+    {
+      $sort: { total: 1 },
+    },
+    {
+      $group: {
+        _id: "$_id.color",
+        openings: {
+          $push: {
+            code: "$_id.code",
+            name: "$_id.opening",
+            moves: "$_id.moves",
+            total: "$total",
+            wins: "$wins",
+            losses: "$losses",
+            draws: "$draws",
           },
         },
       },

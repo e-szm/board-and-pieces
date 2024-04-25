@@ -1,12 +1,5 @@
 "use strict";
 
-//////////////////////////////////////////////////////
-// STUB DATA
-//////////////////////////////////////////////////////
-const stubStats1 = JSON.parse(
-  `{"chess_daily":{"last":{"rating":946,"date":1711471133,"rd":290},"best":{"rating":1000,"date":1554921965,"game":"https://www.chess.com/game/daily/529182733"},"record":{"win":1,"loss":0,"draw":0,"time_per_move":6842,"timeout_percent":0}},"chess_rapid":{"last":{"rating":1784,"date":1711472222,"rd":35},"best":{"rating":1806,"date":1710007768,"game":"https://www.chess.com/game/live/105210104051"},"record":{"win":2788,"loss":2642,"draw":186}},"chess_bullet":{"last":{"rating":1014,"date":1670952586,"rd":180},"best":{"rating":1149,"date":1610749351,"game":"https://www.chess.com/game/live/6247243459"},"record":{"win":2,"loss":2,"draw":0}},"chess_blitz":{"last":{"rating":914,"date":1682701238,"rd":102},"best":{"rating":999,"date":1610736813,"game":"https://www.chess.com/game/live/58209609023"},"record":{"win":32,"loss":26,"draw":2}},"fide":0,"tactics":{"highest":{"rating":1015,"date":1703691755},"lowest":{"rating":410,"date":1606229252}},"puzzle_rush":{"best":{"total_attempts":16,"score":13}}}`
-);
-
 class Application {
   constructor() {
     this.currentStep = -1;
@@ -132,74 +125,3 @@ class Player {
 
 const app = new Application();
 app.init();
-
-class Node {
-  constructor(data) {
-    this.data = data;
-    this.next = null;
-  }
-}
-
-class LinkedList {
-  constructor() {
-    this.head = null;
-    this.tail = null;
-  }
-
-  addNode(data) {
-    const newNode = new Node(data);
-    if (this.head === null) {
-      this.head = newNode;
-      this.tail = newNode;
-    } else {
-      this.tail.next = newNode;
-      this.tail = newNode;
-    }
-  }
-
-  print() {
-    let curNode = this.head;
-    const arr = [];
-    while (curNode) {
-      arr.push(curNode.data);
-      curNode = curNode.next;
-    }
-
-    console.log(arr);
-  }
-}
-
-const ll = new LinkedList();
-ll.addNode(7);
-ll.addNode(5);
-ll.addNode(0);
-ll.addNode(5);
-ll.addNode(21);
-ll.addNode(7);
-
-ll.print();
-
-function removeDups(head) {
-  let prevNode = new Node(null);
-  prevNode.next = head;
-  let curNode = head;
-  const memo = new Map();
-
-  while (curNode) {
-    if (memo.get(curNode.data)) {
-      let temp = curNode;
-      prevNode.next = curNode.next;
-      curNode = curNode.next;
-      temp.next = null;
-    } else {
-      memo.set(curNode.data, true);
-      prevNode = prevNode.next;
-      curNode = curNode.next;
-    }
-  }
-
-  return head;
-}
-
-removeDups(ll.head);
-ll.print();
