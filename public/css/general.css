@@ -104,6 +104,11 @@ body {
   color: #ddd;
 }
 
+.heading-tertiary {
+  font-size: 3.2rem;
+  color: #333;
+}
+
 .input-btn-container {
   position: relative;
 
@@ -276,9 +281,8 @@ input:focus + label {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  row-gap: 10px;
 
-  max-width: 1000px;
+  max-width: 100rem;
   padding: 3.2rem 0;
   background-color: #eee;
   border: none;
@@ -288,29 +292,21 @@ input:focus + label {
 
 .canvas {
   position: relative;
-
-  width: 1000px;
-  height: 400px;
 }
 
-.graph {
-  margin: 5.2rem 1rem 1rem 20rem;
-  padding: 0.02rem; /* 0.00 - 0.10 */
-}
-
-.bar:hover {
-  stroke: #333;
-  stroke-width: 2px;
+.canvas-heading {
+  margin-bottom: 3.2rem;
 }
 
 .axis text {
   font-family: "Outfit", sans-serif;
   font-size: 1.6rem;
+  font-weight: 300;
   letter-spacing: 0.02rem;
   stroke: #333;
   fill: #333;
-  color: rgb(201, 42, 42);
 }
+
 .legend-rect {
   width: 2rem;
   height: 2rem;
@@ -357,20 +353,67 @@ input:focus + label {
   background-color: #333;
 }
 
-.tooltip-content .opening {
+.tooltip-content .tip-header {
   color: #f8f8f8;
   font-size: 2rem;
   margin-bottom: 0.4rem;
 }
 
-.tooltip-content .moves {
+.tooltip-content .tip-subheader {
   font-size: 1.2rem;
   margin-bottom: 1rem;
 }
 
-.tooltip-content .metric {
+.tooltip-content .tip-body {
   color: #f8f8f8;
   font-size: 2.4rem;
+}
+
+.legend-container {
+  display: flex;
+  gap: 40px;
+}
+
+.key-group {
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+}
+
+.legend-shape--rect {
+  height: 20px;
+  width: 20px;
+}
+
+.legend-shape--circle {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+}
+
+.legend-text {
+  color: #333;
+  font-size: 1.6rem;
+}
+
+.axis-title {
+  position: absolute;
+
+  font-size: 1.2rem;
+  color: #888;
+  letter-spacing: 1px;
+}
+
+.axis-title--x {
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.axis-title--y {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) rotate(-90deg);
 }
 
 /* //////////////////////////////////// */

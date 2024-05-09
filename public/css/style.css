@@ -66,3 +66,61 @@
   grid-column: 1;
   grid-row: 1;
 }
+
+/* //////////////////////////////////// */
+/* Opening Statistics */
+/* //////////////////////////////////// */
+
+.canvas--opening-stats {
+  width: 100rem;
+  height: 40rem;
+}
+
+.canvas--opening-stats .graph {
+  margin: 5.2rem 3.2rem 1rem 20rem;
+  padding: 0.02rem; /* 0.00 through 0.10 */
+}
+
+.canvas--opening-stats .bar:hover {
+  stroke: #333;
+  stroke-width: 2px;
+}
+
+/* //////////////////////////////////// */
+/* Rating Trends */
+/* //////////////////////////////////// */
+
+.canvas--rating-trends {
+  width: 100rem;
+  height: 40rem;
+}
+
+.canvas--rating-trends .graph {
+  margin: 4rem 4rem 5.6rem 8rem;
+  padding: 0.02rem; /* 0.00 through 0.10 */
+}
+
+.canvas--rating-trends .path {
+  fill: none;
+  stroke-width: 2;
+}
+
+.canvas--rating-trends .dotted-line {
+  stroke: #bbb;
+  stroke-width: 1;
+  stroke-dasharray: 5;
+}
+
+/* //////////////////////////////////// */
+/* Rating Trends */
+/* //////////////////////////////////// */
+
+.canvas--duration-stats {
+  width: 100rem;
+  height: 40rem;
+}
+
+.canvas--duration-stats .graph {
+  margin: 4rem 4rem 5.6rem 8rem;
+  padding: 0.02rem; /* 0.00 through 0.10 */
+}

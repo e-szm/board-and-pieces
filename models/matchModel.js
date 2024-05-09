@@ -22,6 +22,8 @@ const matchSchema = new mongoose.Schema({
     moves: String,
   },
   end_time: Date,
+  num_moves: Number,
+  player_rating: Number,
   player_username: String,
   rated: Boolean,
   result: {
@@ -55,6 +57,7 @@ const matchSchema = new mongoose.Schema({
       "crazyhouse",
     ],
   },
+  start_time: Date,
   time_class: {
     type: String,
     enum: ["daily", "rapid", "blitz", "bullet"],
@@ -69,6 +72,32 @@ matchSchema.statics.getECOCode = function (pgn) {
   return pgn.slice(ecoStartIndex, ecoStartIndex + 3);
 };
 
+matchSchema.statics.getNumOfMoves = function (pgn) {
+  for (let i = pgn.length - 1; i >= 0; i--) {
+    if (pgn[i] !== ".") continue;
+    else if (pgn[i] + pgn[i - 1] + pgn[i - 2] === "...") {
+      let j = i - 3;
+      let num = "";
+      while ((pgn[j] >= 0) & (pgn[j] <= 9)) {
+        num = pgn[j] + num;
+        j--;
+      }
+      return parseInt(num);
+    }
+  }
+};
+
+matchSchema.statics.getStartTime = function (pgn) {
+  const regex = /UTCDate/;
+  const dateStartIndex = pgn.search(regex) + 9;
+  const timeStartIndex = dateStartIndex + 23;
+
+  const date = pgn.slice(dateStartIndex, dateStartIndex + 10);
+  const time = pgn.slice(timeStartIndex, timeStartIndex + 8);
+
+  return new Date(Date.parse(date + " " + time + " GMT"));
+};
+
 matchSchema.statics.format = async function (username, matches) {
   const result = [];
   const openingsMap = await Opening.getOpenings();
@@ -77,6 +106,8 @@ matchSchema.statics.format = async function (username, matches) {
     const color = username === match.white.username ? "white" : "black";
     const ecoCode = this.getECOCode(match.pgn);
     const opening = openingsMap.get(ecoCode);
+    const startTime = this.getStartTime(match.pgn);
+    const numMoves = this.getNumOfMoves(match.pgn);
 
     result.push({
       color: color,
@@ -86,10 +117,13 @@ matchSchema.statics.format = async function (username, matches) {
         moves: opening.moves,
       },
       end_time: new Date(match.end_time * 1000),
+      num_moves: numMoves,
       player_username: username,
+      player_rating: match[color].rating,
       rated: match.rated,
       result: match[color].result,
       rules: match.rules,
+      start_time: startTime,
       time_class: match.time_class,
       time_control: match.time_control,
       url: match.url,

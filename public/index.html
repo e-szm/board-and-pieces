@@ -13,9 +13,8 @@
 
     <link rel="stylesheet" href="css/general.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <script defer src="data-viz.js"></script>
+    <script defer src="dashboard.js" type="module"></script>
     <script defer src="main.js"></script>
-    <script defer src="opening-stats.js" type="module"></script>
     <title>Knight's Edge</title>
   </head>
   <body>
@@ -79,44 +78,26 @@
       <section class="section-dashboard">
         <div
           class="container canvas-container"
-          id="canvas-container-open-stats"
+          id="canvas-container-opening-stats"
         >
           <div class="canvas-card">
-            <div class="graph-options">
-              <div class="options-group">
-                <button
-                  class="btn btn--option filter active"
-                  data-color="white"
-                >
-                  White
-                </button>
-                <button class="btn btn--option filter" data-color="black">
-                  Black
-                </button>
-              </div>
-              <div class="options-group">
-                <button class="btn btn--option sort active" data-sort="total">
-                  Total
-                </button>
-                <button class="btn btn--option sort" data-sort="wins">
-                  Wins
-                </button>
-                <button class="btn btn--option sort" data-sort="losses">
-                  Losses
-                </button>
-              </div>
-            </div>
-            <div class="canvas">
-              <div class="tooltip-container">
-                <div class="tooltip">
-                  <div class="tooltip-content">
-                    <p class="opening"></p>
-                    <p class="moves"></p>
-                    <p class="metric"></p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div class="canvas canvas--opening-stats"></div>
+          </div>
+        </div>
+        <div
+          class="container canvas-container"
+          id="canvas-container-rating-trends"
+        >
+          <div class="canvas-card">
+            <div class="canvas canvas--rating-trends"></div>
+          </div>
+        </div>
+        <div
+          class="container canvas-container"
+          id="canvas-container-duration-stats"
+        >
+          <div class="canvas-card">
+            <div class="canvas canvas--duration-stats"></div>
           </div>
         </div>
       </section>
