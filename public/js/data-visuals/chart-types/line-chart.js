@@ -62,7 +62,7 @@ export default class LineChart extends DataViz {
 
       this.tipCont.style("left", leftShift);
       this.tipCont.style("top", topShift);
-      this.tipCont.style("opacity", 1);
+      this.tipCont.style("display", "block");
 
       this.xLine
         .attr("x1", this.x(data.date))
@@ -83,7 +83,7 @@ export default class LineChart extends DataViz {
   }
 
   handleMouseOut(e) {
-    this.tipCont.style("opacity", 0);
+    this.tipCont.style("display", "none");
     this.lineGroup.attr("opacity", 0);
   }
 

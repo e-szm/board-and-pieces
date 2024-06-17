@@ -1,0 +1,28 @@
+extends base
+
+block scripts
+    script(type='module' defer src='js/signup.js')
+
+block content
+    main
+        div.form-container.signup-form
+            h2.heading.heading--secondary Create an account
+            p.content Already have an account?
+                | 
+                a.inline-link(href='/login') Log in
+            form.form--signup
+                fieldset.form-fieldset.card
+                    div.input-container
+                        label.input-label(for='email') Email Address
+                        input.input-field(id='email' type='email' required 
+                        maxlength='50' placeholder='example@sample.com')
+                    div.input-container
+                        label.input-label(for='username') Chess.com Username
+                        input.input-field(id='username' type='text' required maxlength='30'  placeholder='user123')
+                    div.input-container
+                        label.input-label(for='password') Password (8 character minimum)
+                        input.input-field(id='password' type='password' required                        minlength='8' maxlength='50' placeholder='●●●●●●●●')
+                    div.input-container
+                        label.input-label(for='confirm-password') Confirm Password
+                        input.input-field(id='confirm-password' type='password' required minlength='8' maxlength='50' placeholder='●●●●●●●●')
+                button.btn.btn--cta.btn-submit.btn-submit--signup(type='submit') Create Account

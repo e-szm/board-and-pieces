@@ -1,0 +1,22 @@
+extends base
+
+block scripts
+    script(type='module' defer src='js/login.js')
+
+block content
+    main
+        div.form-container.login-form
+            h2.heading.heading--secondary Log in to your account
+            p.content Don't have an account?
+                | 
+                a.inline-link(href='/signup') Sign up
+            form.form--login
+                fieldset.form-fieldset.card
+                    div.input-container
+                        label.input-label(for='email') Email Address
+                        input.input-field(id='email' type='email' required 
+                        maxlength='50' placeholder='example@sample.com')
+                    div.input-container
+                        label.input-label(for='password') Password
+                        input.input-field(id='password' type='password' required                        minlength='8' maxlength='50' placeholder='●●●●●●●●')
+                button.btn.btn--cta.btn-submit.btn-submit--login(type='submit') Log In

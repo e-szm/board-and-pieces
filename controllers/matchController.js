@@ -1,56 +1,37 @@
 const Match = require("../models/matchModel");
 const Player = require("../models/playerModel");
-const ChessDotCom = require("../utils/chessDotCom");
+const dateHelper = require("../utils/dateHelper");
+const catchAsync = require("../utils/catchAsync");
 
-exports.createMatch = async (req, res, next) => {
-  const username = req.params.username;
-  const archYear = "2024";
-  const archMonth = "03";
-  const archPeriod = archYear + archMonth;
+function validateParams(params) {
+  const { start, end } = params;
+  dateHelper.isValidDateString([start, end]);
 
-  const player = await Player.findOne({ username: username });
-  if (!player) return next(new Error("Player does not exist"));
+  const queryStart = new Date(start);
+  const endDate = new Date(end);
+  dateHelper.isValidDateRange(queryStart, endDate);
+  const queryEnd = dateHelper.addMonths(endDate, 1);
 
-  if (player.archAvailFor(archPeriod)) {
-    console.log("Archives are available");
-  } else {
-    console.log("Archives not available. Going to chess.com");
-    const data = await ChessDotCom.getMonthlyArchives(
-      username,
-      archYear,
-      archMonth
-    );
+  return {
+    queryStart,
+    queryEnd,
+  };
+}
 
-    const matches = await Match.format(username, data);
-    Match.create(matches);
-    await player.updateArchive(archPeriod);
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: "we're moving!",
-  });
-};
-
-exports.getOpeningStats = async function (req, res, next) {
-  // TODO: Arch periods/data retrieval centralized
-  const archPeriodBegin = new Date(req.params.year, req.params.month);
-  const archPeriodEnd = new Date(archPeriodBegin);
-  archPeriodEnd.setMonth(archPeriodEnd.getMonth() + 1);
+exports.getOpeningStats = catchAsync(async function (req, res, next) {
+  const { queryStart, queryEnd } = validateParams(req.params);
 
   const openingStats = await Match.aggregate([
     {
       $match: {
-        player_username: req.params.username,
-        end_time: { $gte: archPeriodBegin, $lt: archPeriodEnd },
+        player: req.user.player,
+        end_time: { $gte: queryStart, $lt: queryEnd },
       },
     },
     {
       $group: {
         _id: {
           code: "$eco.code",
-          // opening: "$eco.name",
-          // moves: "$eco.moves",
           color: "$color",
         },
         opening: { $first: "$eco.name" },
@@ -133,21 +114,21 @@ exports.getOpeningStats = async function (req, res, next) {
 
   res.status(200).json({
     status: "success",
-    data: openingStats,
+    results: openingStats.length,
+    data: {
+      openingStats,
+    },
   });
-};
+});
 
-exports.getRatingTrends = async function (req, res, next) {
-  // TODO: Arch periods/data retrieval centralized
-  const archPeriodBegin = new Date(req.params.year, req.params.month);
-  const archPeriodEnd = new Date(archPeriodBegin);
-  archPeriodEnd.setMonth(archPeriodEnd.getMonth() + 1);
+exports.getRatingTrends = catchAsync(async function (req, res, next) {
+  const { queryStart, queryEnd } = validateParams(req.params);
 
   const ratingTrends = await Match.aggregate([
     {
       $match: {
-        player_username: req.params.username,
-        end_time: { $gte: archPeriodBegin, $lt: archPeriodEnd },
+        player: req.user.player,
+        end_time: { $gte: queryStart, $lt: queryEnd },
       },
     },
     {
@@ -176,20 +157,21 @@ exports.getRatingTrends = async function (req, res, next) {
 
   res.status(200).json({
     status: "success",
-    data: ratingTrends,
+    results: ratingTrends.length,
+    data: {
+      ratingTrends,
+    },
   });
-};
+});
 
-exports.getDurationStats = async function (req, res, next) {
-  const archPeriodBegin = new Date(req.params.year, req.params.month);
-  const archPeriodEnd = new Date(archPeriodBegin);
-  archPeriodEnd.setMonth(archPeriodEnd.getMonth() + 1);
+exports.getDurationStats = catchAsync(async function (req, res, next) {
+  const { queryStart, queryEnd } = validateParams(req.params);
 
   const durationStats = await Match.aggregate([
     {
       $match: {
-        player_username: req.params.username,
-        end_time: { $gte: archPeriodBegin, $lt: archPeriodEnd },
+        player: req.user.player,
+        end_time: { $gte: queryStart, $lt: queryEnd },
       },
     },
     {
@@ -258,6 +240,116 @@ exports.getDurationStats = async function (req, res, next) {
 
   res.status(200).json({
     status: "success",
-    data: durationStats,
+    results: durationStats.length,
+    data: {
+      durationStats,
+    },
   });
-};
+});
+
+exports.refreshDashboard = catchAsync(async (req, res, next) => {
+  let { username, start, end } = req.params;
+  const { queryStart, queryEnd } = validateParams(req.params);
+
+  // 1) Get Player from username or JWT
+  let player;
+  if (username) {
+    player = await Player.validateOrCreatePlayer(username);
+  } else {
+    player = await Player.findById(req.user.player);
+  }
+
+  // 2) Convert date range to dates
+  const dateList = Player.getDatesList(start, end);
+
+  // 3) Loop dates
+  let newMatches = [];
+  for (let i = 0; i < dateList.length; i++) {
+    newMatches.push(...(await player.refreshArchivesFor(dateList[i])));
+  }
+
+  newMatches = await Match.format(player, newMatches);
+  await Match.create(newMatches);
+  // Archive updates persisted AFTER successful match creation
+  await player.save();
+
+  const highlights = await Match.aggregate([
+    {
+      $match: {
+        player: req.user.player,
+        end_time: { $gte: queryStart, $lt: queryEnd },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        total: { $sum: 1 },
+        wins: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ["$result", "win"],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        losses: {
+          $sum: {
+            $cond: [
+              {
+                $in: [
+                  "$result",
+                  [
+                    "checkmated",
+                    "timeout",
+                    "resigned",
+                    "lose",
+                    "abandoned",
+                    "kingofthehill",
+                    "threecheck",
+                    "bughousepartnerlos",
+                  ],
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        draws: {
+          $sum: {
+            $cond: [
+              {
+                $in: [
+                  "$result",
+                  [
+                    "agreed",
+                    "repetition",
+                    "stalemate",
+                    "insufficient",
+                    "50move",
+                    "timevsinsufficient",
+                  ],
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      username: player.username,
+      startDateStr: start,
+      endDateStr: end,
+      highlights: highlights[0],
+    },
+  });
+});

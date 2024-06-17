@@ -1,0 +1,82 @@
+- const openStatsOptions = JSON.stringify({canvasId: "#canvas--opening-stats", keys: ["wins", "draws", "losses"], filterGroups: [["color", ["white", "black"]]], sortGroups: [["most", ["total", "wins", "losses"]]]})
+
+- const ratingTrendsOptions = JSON.stringify({canvasId: "#canvas--rating-trends", filterGroups: [["time_class", ["rapid", "daily", "blitz", "bullet"]]], sortGroups: []})
+
+- const durationStatsOptions = JSON.stringify({canvasId: "#canvas--match-duration-analysis", keys: ["win", "draw", "lose"], filterGroups: [["time_class", ["rapid", "daily", "blitz", "bullet"]]], sortGroups: []})
+
+div#main.dashboard-main
+    div#summary.main-content
+        h3.heading.heading--tertiary Welcome to your dashboard, #{user.username}!
+        p.content Before you get started, here are a few things to keep in mind:
+        ul.summary-list
+            li The #[strong highlights panel] (above) shows details of the currently generated dashboard
+            li On the #[strong sidebar] (left), you will find navigation options for the dashboard, including configuration and data visualizations
+            li You can use the #[strong Configuration] view to specify parameters (e.g., username, date ranges) and generate a dashboard
+            li The #[strong Data Visualizations] section lists available charts and graphs for you to interact with; some of these may require a minimum amount of games played to display
+    div#configuration.main-content.hidden
+        h3.heading.heading--tertiary Configure and generate a new dashboard
+        form#config-form.form--generate-dashboard
+            fieldset.form-fieldset
+                div.input-container
+                    label.input-label(for='username') Chess.com Username
+                    input.input-field(id='username' type='text' required maxlength='30'  placeholder='user123' value=user.username disabled)
+                div.month-year-container
+                    div.input-container
+                        label.input-label(for='start-month') Start Month
+                        select.input-field(id='start-month' type='email' required)
+                            option(value='01') January
+                            option(value='02') February
+                            option(value='03') March
+                            option(value='04') April
+                            option(value='05') May
+                            option(value='06') June
+                            option(value='07') July
+                            option(value='08') August
+                            option(value='09') September
+                            option(value='10') October
+                            option(value='11') November
+                            option(value='12') December
+                    div.input-container
+                        label.input-label(for='start-year') Start Year
+                        select.input-field(id='start-year' type='email' required)
+                            option(value='2024') 2024
+                            option(value='2023') 2023
+                            option(value='2022') 2022
+                            option(value='2021') 2021
+                            option(value='2020') 2020
+                            option(value='2019') 2019
+                div.month-year-container
+                    div.input-container
+                        label.input-label(for='end-month') End Month
+                        select.input-field(id='end-month' type='email' required)
+                            option(value='01') January
+                            option(value='02') February
+                            option(value='03') March
+                            option(value='04') April
+                            option(value='05') May
+                            option(value='06') June
+                            option(value='07') July
+                            option(value='08') August
+                            option(value='09') September
+                            option(value='10') October
+                            option(value='11') November
+                            option(value='12') December
+                    div.input-container
+                        label.input-label(for='end-year') End Year
+                        select.input-field(id='end-year' type='email' required)
+                            option(value='2024') 2024
+                            option(value='2023') 2023
+                            option(value='2022') 2022
+                            option(value='2021') 2021
+                            option(value='2020') 2020
+                            option(value='2019') 2019
+            button.btn.btn--cta.btn-submit.btn-submit--generate-dashboard(type='submit') Generate
+    div#opening-statistics.main-content.hidden(data-graph-type='stackedBarChart' data-graph-action='getOpeningStats' data-graph-options=openStatsOptions)
+        div.canvas-container
+            div#canvas--opening-stats.canvas
+    div#rating-trends.main-content.hidden(data-graph-type='lineChart' data-graph-action='getRatingTrends' data-graph-options=ratingTrendsOptions)
+        div.canvas-container
+            div#canvas--rating-trends.canvas
+    div#match-duration-analysis.main-content.hidden(data-graph-type='scatterplot' data-graph-action='getDurationStats' data-graph-options=durationStatsOptions)
+        div.canvas-container
+            div#canvas--match-duration-analysis.canvas

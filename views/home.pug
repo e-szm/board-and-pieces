@@ -1,0 +1,33 @@
+extends base
+
+block content
+    main
+        section.section-hero.chessboard
+            div.hero.container
+                h1.heading.heading--primary Find your edge. Beat your opponent.
+                p.content Understand strengths and weaknesses through personalized dashboards linked to your Chess.com account.
+            div.hero-cta-container
+                a.btn(href='#about') Learn More &darr;
+                a.btn.btn--cta(href='/signup') Get Started
+        
+        section#about.section-about
+            h2.section-header.heading.heading--tertiary ABOUT
+            div.about-container.container
+                img.about-image(src='/images/original/configuration.png' alt='Dashboard configuration, including username, start date, and end date')
+                div.about-content
+                    h3.heading.heading--tertiary Pick your configuration
+                    p.content Configure your dashboard's target user and inclusive date range that matches will be pulled from.
+                div.about-content
+                    h3.heading.heading--tertiary Analyze your openings
+                    p.content View the openings you've used during the dashboard generation period. Filter on Black or White to see where you perform best and where you need to focus time. You can also sort the list based on Total, Wins and Losses.
+                img.about-image(src='/images/original/opening-stats.png' alt='Data visualization showing top openings played by the Chess.com user.')
+                img.about-image(src='/images/original/rating-trends.png' alt='Data visualization showing the Chess.com ratings over a period of time.')
+                div.about-content
+                    h3.heading.heading--tertiary Review your performance
+                    p.content See how your rating has changed across the selected time period. You can filter various time controls (e.g., Rapid, Blitz) to focus on your primary play-style.
+                div.about-content
+                    h3.heading.heading--tertiary Learn about your play speed
+                    p.content Review how the length of your games and number of moves impacts your outcome to get a better understanding of how you perform in the opening, middle, and end game.
+                img.about-image(src='/images/original/duration-analysis.png' alt='Data visualization showing the Chess.com ratings over a period of time.')
+
+            

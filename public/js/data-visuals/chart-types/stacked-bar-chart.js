@@ -50,7 +50,7 @@ export default class StackedBarChart extends DataViz {
 
       this.tipCont.style("left", leftShift);
       this.tipCont.style("top", topShift);
-      this.tipCont.style("opacity", 1);
+      this.tipCont.style("display", "block");
     }
 
     container.addEventListener("mouseover", handleMouseOver.bind(this));

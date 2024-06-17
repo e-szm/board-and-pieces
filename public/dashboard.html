@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/general.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script defer src="./js/index.js" type="module"></script>
+
+    <title>Knight's Edge</title>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="main-nav container">
+        <div>LOGO</div>
+        <ul class="main-nav-list">
+          <li><a class="main-nav-link" href="#">Link 1</a></li>
+          <li><a class="main-nav-link" href="#">Link 2</a></li>
+          <li><a class="main-nav-link" href="#">Link 3</a></li>
+          <li><a class="main-nav-link" href="#">Link 4</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section-dashboard">
+        <div class="dashboard-container container">
+          <div class="dashboard grid">
+            <div class="dashboard-highlights">
+              <div class="dashboard-highlights-section">
+                <div class="highlight-group">
+                  <p class="field-label">User</p>
+                  <p class="highlight-text">Cashmonnay17</p>
+                </div>
+              </div>
+              <div class="dashboard-highlights-section">
+                <div class="highlight-group">
+                  <p class="field-label">From</p>
+                  <select class="highlight-text highlight-select">
+                    <option value="01">Jan</option>
+                    <option value="02">Feb</option>
+                    <option value="03">Mar</option>
+                    <option value="04">Apr</option>
+                    <option value="05">May</option>
+                    <option value="06">Jun</option>
+                    <option value="07">Jul</option>
+                    <option value="08">Aug</option>
+                    <option value="09">Sep</option>
+                    <option value="10">Oct</option>
+                    <option value="11">Nov</option>
+                    <option value="12">Dec</option>
+                  </select>
+                </div>
+                <div class="highlight-group">
+                  <p class="field-label"></p>
+                  <p class="highlight-text">-</p>
+                </div>
+                <div class="highlight-group">
+                  <p class="field-label">To</p>
+                  <p class="highlight-text">Feb '24</p>
+                </div>
+              </div>
+              <div class="dashboard-highlights-section">
+                <div class="highlight-group">
+                  <p class="field-label">Games Played</p>
+                  <p class="highlight-text">349</p>
+                </div>
+                <div class="highlight-group">
+                  <p class="field-label">Wins</p>
+                  <p class="highlight-text wins">179</p>
+                </div>
+                <div class="highlight-group">
+                  <p class="field-label">Draws</p>
+                  <p class="highlight-text draws">6</p>
+                </div>
+                <div class="highlight-group">
+                  <p class="field-label">Losses</p>
+                  <p class="highlight-text losses">164</p>
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-sidebar">
+              <p class="sidebar-label field-label">Data Visualizations</p>
+              <button
+                class="sidebar-btn active"
+                data-viz="StackedBarChart"
+                data-canvas="opening-stats"
+              >
+                Opening Statistics
+              </button>
+              <button
+                class="sidebar-btn"
+                data-viz="LineChart"
+                data-canvas="rating-trends"
+              >
+                Rating Trends
+              </button>
+              <button
+                class="sidebar-btn"
+                data-viz="Scatterplot"
+                data-canvas="duration-stats"
+              >
+                Match Duration Analysis
+              </button>
+            </div>
+            <div class="dashboard-canvas"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

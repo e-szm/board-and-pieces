@@ -1,0 +1,18 @@
+header.header
+    nav.main-nav.container
+        div LOGO
+        ul.main-nav-list
+            li
+                a.main-nav-link(href='/') Home
+            li
+                a.main-nav-link(href='/#about') About
+            - if (user)
+                li
+                    a.main-nav-link(href='/dashboard') Dashboard
+                li
+                    a.main-nav-link#logout(href='#') Log out
+                li
+                    a.main-nav-link(href='/me') My Account
+            - else
+                li
+                    a.main-nav-link.btn.btn--cta(href='/login') Log in

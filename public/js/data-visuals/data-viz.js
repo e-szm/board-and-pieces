@@ -4,9 +4,9 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 export default class DataViz {
   constructor(arg = {}) {
-    const { canvas, colors, filterGroups, heading, keys, sortGroups } = arg;
+    const { canvasId, colors, filterGroups, heading, keys, sortGroups } = arg;
 
-    this.canvas = canvas || d3.select(".canvas");
+    this.canvas = d3.select(canvasId);
     this.colors = colors || ["#c92a2a", "#efbfbf", "#791919"];
     this.keys = keys || [];
     this.data = null;
@@ -227,7 +227,7 @@ export default class DataViz {
   }
 
   handleMouseOut(e) {
-    this.tipCont.style("opacity", 0);
+    this.tipCont.style("display", "none");
   }
 
   setDims() {

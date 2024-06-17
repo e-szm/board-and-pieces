@@ -23,8 +23,15 @@ const matchSchema = new mongoose.Schema({
   },
   end_time: Date,
   num_moves: Number,
+  player: {
+    type: mongoose.ObjectId,
+    required: true,
+  },
   player_rating: Number,
-  player_username: String,
+  player_username: {
+    type: String,
+    required: true,
+  },
   rated: Boolean,
   result: {
     type: String,
@@ -98,12 +105,12 @@ matchSchema.statics.getStartTime = function (pgn) {
   return new Date(Date.parse(date + " " + time + " GMT"));
 };
 
-matchSchema.statics.format = async function (username, matches) {
+matchSchema.statics.format = async function (player, matches) {
   const result = [];
   const openingsMap = await Opening.getOpenings();
 
   for (let match of matches) {
-    const color = username === match.white.username ? "white" : "black";
+    const color = player.username === match.white.username ? "white" : "black";
     const ecoCode = this.getECOCode(match.pgn);
     const opening = openingsMap.get(ecoCode);
     const startTime = this.getStartTime(match.pgn);
@@ -118,7 +125,8 @@ matchSchema.statics.format = async function (username, matches) {
       },
       end_time: new Date(match.end_time * 1000),
       num_moves: numMoves,
-      player_username: username,
+      player: player._id,
+      player_username: player.username,
       player_rating: match[color].rating,
       rated: match.rated,
       result: match[color].result,

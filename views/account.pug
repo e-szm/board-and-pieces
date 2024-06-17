@@ -1,0 +1,37 @@
+extends base
+
+block scripts
+    script(type='module' defer src='js/account.js')
+
+block content
+    main
+        div.account-container.container
+            h2.heading.heading--secondary My Account
+            div.account-card.card
+                div.account-info-container
+                    h2.heading.heading--tertiary Profile Information
+                    form.form--account-info.form--profile
+                        fieldset.form-fieldset(disabled)
+                            div.input-container
+                                label.input-label(for='email') Email Address
+                                input.input-field(id='email' type='email' required 
+                                maxlength='50' placeholder='example@sample.com'
+                                value=user.email)
+                            div.input-container
+                                label.input-label(for='username') Chess.com Username
+                                input.input-field(id='username' type='text' required maxlength='30'  placeholder='user123'
+                                value=user.username)
+                div.account-info-container
+                    h2.heading.heading--tertiary Change My Password
+                    form.form--account-info.form--password
+                        fieldset.form-fieldset
+                            div.input-container
+                                label.input-label(for='current-password') Current Password
+                                input.input-field(id='current-password' type='password' required                        minlength='8' maxlength='50' placeholder='●●●●●●●●')
+                            div.input-container
+                                label.input-label(for='new-password') New Password (8 character minimum)
+                                input.input-field(id='new-password' type='password' required                        minlength='8' maxlength='50' placeholder='●●●●●●●●')
+                            div.input-container
+                                label.input-label(for='confirm-password') Confirm New Password
+                                input.input-field(id='confirm-password' type='password' required minlength='8' maxlength='50' placeholder='●●●●●●●●')
+                        button.btn.btn--cta.btn-submit.btn-submit--password(type='submit') Change Password
