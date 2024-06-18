@@ -38,7 +38,7 @@ export async function getRefresh(start, end) {
 }
 
 export async function login(obj) {
-  const url = `/api/v1/users/login`;
+  const url = "/api/v1/users/login";
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   const body = JSON.stringify(obj);
@@ -57,7 +57,7 @@ export async function logout() {
 }
 
 export async function signup(obj) {
-  const url = `/api/v1/users/signup`;
+  const url = "/api/v1/users/signup";
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   const body = JSON.stringify(obj);

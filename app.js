@@ -7,6 +7,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
+const compression = require("compression");
 
 const viewRouter = require("./routes/viewRoutes");
 const playerRouter = require("./routes/playerRoutes");
@@ -58,6 +59,9 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.static(`${__dirname}/public`));
+
+// COMPRESS TEXT RESPONSES
+app.use(compression());
 
 // API ROUTES
 app.use("/api/v1/players", playerRouter);
