@@ -4,8 +4,8 @@
   "description": "Create match-ups between 2 players to review analysis of historical matches played on Chess.com.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "Eddie Szmigielski",
   "license": "ISC",
@@ -25,5 +25,8 @@
     "nodemailer": "^6.9.13",
     "pug": "^3.0.3",
     "xss-clean": "^0.1.4"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }
