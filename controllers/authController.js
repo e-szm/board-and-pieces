@@ -12,17 +12,16 @@ const signToken = (userId) =>
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
-  const cookieOptions = {
+
+  res.cookie("jwt", token, {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
     ),
     httpOnly: true,
-    secure: true,
-  };
-  if (process.env.NODE_ENV !== "production") cookieOptions.secure = false;
-  res.cookie("jwt", token, cookieOptions);
+    secure: req.secure || req.headers("x-forwarded-proto") === "https",
+  });
 
   user.password = undefined;
   res.status(statusCode).json({
@@ -52,7 +51,7 @@ exports.changeMyPassword = catchAsync(async function (req, res, next) {
   user.confirm_password = req.body.newPasswordConfirm;
   await user.save();
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.forgotMyPassword = catchAsync(async function (req, res, next) {
@@ -130,7 +129,7 @@ exports.login = catchAsync(async function (req, res, next) {
   if (!user || !(await user.comparePasswords(password, user.password)))
     return next(new AppError("Incorrect username or password", 400));
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.logout = catchAsync(async (req, res, next) => {
@@ -221,5 +220,5 @@ exports.signup = catchAsync(async function (req, res, next) {
     player: player._id,
   });
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
 });
