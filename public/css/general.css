@@ -40,7 +40,7 @@ Medium: 11px
 
 :root {
   --primary-white: #ddd;
-  --primary-white--dark: #eee;
+  --primary-white--light: #eee;
   --primary-white--darker: #bbb;
   --primary-white--highlight: #d9d9d9;
 
@@ -64,6 +64,7 @@ Medium: 11px
 html {
   font-size: 62.5%;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -122,7 +123,7 @@ a.inline-link {
 
 .chessboard {
   background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(51, 51, 51, 0.85)),
-    url("../images/original/hero-board.png");
+    url("../images/general/chessboard.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -181,7 +182,7 @@ a.inline-link {
 
 .card {
   padding: 3.2rem 4.8rem;
-  background-color: var(--primary-white--dark);
+  background-color: var(--primary-white--light);
   border: none;
   border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
@@ -206,8 +207,9 @@ a.inline-link {
 }
 
 .section-header {
-  margin-left: 3.2rem;
-  margin-bottom: 6.4rem;
+  color: var(--primary-white--darker);
+  font-size: 2.4rem;
+  margin-bottom: 9.6rem;
 }
 
 .content {
@@ -242,7 +244,7 @@ button {
 
 .btn:hover,
 .btn:active {
-  background-color: var(--primary-white--dark);
+  background-color: var(--primary-white--light);
 }
 
 .btn--cta {
@@ -295,6 +297,10 @@ button {
 /* GENERAL */
 /* //////////////////////////////////// */
 
+.logo {
+  width: 4rem;
+}
+
 /* //////////////////////////////////// */
 /* Data Visualizations (D3) */
 /* //////////////////////////////////// */
@@ -319,7 +325,7 @@ button {
 
   max-width: 100rem;
   padding: 3.2rem 0;
-  background-color: var(--primary-white--dark);
+  background-color: var(--primary-white--light);
   border: none;
   border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);

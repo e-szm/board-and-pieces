@@ -3,7 +3,9 @@ html
     head
         meta(charset='UTF-8')
         meta(name='viewport' content='width=device-width, initial-scale=1.0')
+        meta(name='description' content='Personalized dashboards for Chess.com users to analyze chess strengths and weaknesses, including opening statistics, rating trends, and more.')
 
+        link(rel="icon" href='images/general/logo-64x64.png')
         link(rel='preconnect' href='https://fonts.googleapis.com')
         link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin)
         
@@ -15,9 +17,9 @@ html
 
         block scripts
         if (title)
-            title Knight's Edge | #{title}
+            title Board & Pieces | #{title}
         else
-            title Knight's Edge
+            title Board & Pieces
     
     body
         // Header
@@ -25,3 +27,6 @@ html
         
         // Content
         block content
+
+        // Footer
+        include _footer
