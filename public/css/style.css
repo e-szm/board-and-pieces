@@ -10,6 +10,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  padding: 1.5rem 3.2rem;
 }
 
 .main-nav-list {
@@ -81,6 +83,10 @@
   width: 100%;
 }
 
+.hero-cta-container .btn {
+  width: 80%;
+}
+
 /* About */
 
 .section-about {
@@ -93,8 +99,6 @@
 }
 
 .about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   align-items: center;
   column-gap: 6.4rem;
   row-gap: 20rem;
@@ -405,4 +409,81 @@
   background-color: #222;
 
   margin-top: 10rem;
+}
+
+/* //////////////////////////////////// */
+/* MEDIA QUERIES */
+/* //////////////////////////////////// */
+
+@media (max-width: 70em) {
+  html {
+    font-size: 56.25%;
+  }
+}
+
+@media (max-width: 60em) {
+  html {
+    font-size: 50%;
+  }
+
+  .about-heading {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 51em) {
+  .grid--2-cols {
+    grid-template-columns: 1fr;
+    row-gap: 4.8rem;
+  }
+
+  .hero-cta-container {
+    flex-direction: column;
+    align-items: center;
+
+    margin: 0 auto;
+  }
+
+  .about-grid {
+    justify-items: center;
+
+    text-align: center;
+  }
+
+  .about-image {
+    max-width: 75%;
+    margin-bottom: 6.4rem;
+  }
+
+  #about-content-1 {
+    grid-row: 1;
+  }
+
+  #about-content-2 {
+    grid-row: 3;
+  }
+
+  #about-content-3 {
+    grid-row: 5;
+  }
+
+  #about-content-4 {
+    grid-row: 7;
+  }
+
+  #about-img-1 {
+    grid-row: 2;
+  }
+
+  #about-img-2 {
+    grid-row: 4;
+  }
+
+  #about-img-3 {
+    grid-row: 6;
+  }
+
+  #about-img-4 {
+    grid-row: 8;
+  }
 }
