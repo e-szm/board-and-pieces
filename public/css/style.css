@@ -50,6 +50,33 @@
   background-color: var(--primary-red--darker);
 }
 
+.mobile-nav-btn {
+  display: none;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+}
+
+#btn--nav-open {
+  position: relative;
+}
+
+#btn--nav-close {
+  position: fixed;
+  top: 1.5rem;
+  right: 3.5rem;
+}
+
+.nav-icon {
+  stroke: var(--primary-white);
+  height: 5rem;
+  width: 5rem;
+
+  pointer-events: none;
+}
+
 /* //////////////////////////////////// */
 /* HOME PAGE */
 /* //////////////////////////////////// */
@@ -437,12 +464,62 @@
     row-gap: 4.8rem;
   }
 
+  /* Mobile Navigation */
+
+  .nav-list-container.open #btn--nav-close {
+    display: inline-block;
+  }
+
+  .nav-list-container.open #btn--nav-open {
+    display: none;
+  }
+
+  .nav-list-container.open .main-nav-list {
+    display: flex;
+  }
+
+  .nav-list-container.closed #btn--nav-close {
+    display: none;
+  }
+
+  .nav-list-container.closed #btn--nav-open {
+    display: inline-block;
+  }
+
+  .nav-list-container.closed .main-nav-list {
+    display: none;
+  }
+
+  .main-nav-list {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(51, 51, 51, 0.99);
+  }
+
+  .main-nav-link:link,
+  .main-nav-link:visited {
+    font-size: 3.2rem;
+  }
+
+  /* Hero section */
+
   .hero-cta-container {
     flex-direction: column;
     align-items: center;
 
     margin: 0 auto;
   }
+
+  /* About section */
 
   .about-grid {
     justify-items: center;

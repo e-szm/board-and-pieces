@@ -1,18 +1,25 @@
 header.header
     nav.main-nav.container
         img.logo(src='/images/general/logo-full.png' alt='Two king pieces (black and white) faceoff on a chessboard background.')
-        ul.main-nav-list
-            li
-                a.main-nav-link(href='/') Home
-            li
-                a.main-nav-link(href='/#about') About
-            - if (user)
+        div.nav-list-container.closed
+            button#btn--nav-open.mobile-nav-btn(data-action='open')
+                svg.icon.nav-icon(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6")
+                    path(stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5")
+            button#btn--nav-close.mobile-nav-btn(data-action='closed')
+                svg.icon.nav-icon(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6")
+                    path(stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12")
+            ul.main-nav-list
                 li
-                    a.main-nav-link(href='/dashboard') Dashboard
+                    a.main-nav-link(href='/') Home
                 li
-                    a.main-nav-link#logout(href='#') Log out
-                li
-                    a.main-nav-link(href='/me') My Account
-            - else
-                li
-                    a.main-nav-link.btn.btn--cta(href='/login') Log in
+                    a.main-nav-link(href='/#about') About
+                - if (user)
+                    li
+                        a.main-nav-link(href='/dashboard') Dashboard
+                    li
+                        a.main-nav-link#logout(href='#') Log out
+                    li
+                        a.main-nav-link(href='/me') My Account
+                - else
+                    li
+                        a.main-nav-link.btn.btn--cta(href='/login') Log in
