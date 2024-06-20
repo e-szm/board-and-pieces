@@ -165,14 +165,17 @@
 
 .form-container .heading {
   margin-bottom: 0;
+  text-align: center;
 }
 
 .form-container .content {
   margin-bottom: 3.2rem;
+  text-align: center;
 }
 
-.form--signup .form-fieldset,
-.form--login .form-fieldset {
+.form--signup,
+.form--login {
+  flex: 1 1 auto;
   width: 50rem;
 }
 
@@ -562,5 +565,16 @@
 
   #about-img-4 {
     grid-row: 8;
+  }
+
+  /* Login & Signup */
+
+  .form--signup,
+  .form--login {
+    width: 75%;
+  }
+
+  .input-field {
+    font-size: 3rem;
   }
 }
