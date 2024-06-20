@@ -569,12 +569,17 @@
 
   /* Login & Signup */
 
+  .card {
+    padding: 3.2rem 3rem;
+  }
+
   .form--signup,
   .form--login {
-    width: 75%;
+    width: 85%;
   }
 
   .input-field {
-    font-size: 3rem;
+    font-size: 2rem;
+    padding: 1.2rem 1.6rem;
   }
 }
