@@ -58,9 +58,14 @@ export default class StackedBarChart extends DataViz {
   }
 
   updateGraphData(data) {
+    if (!data) data = this.data;
+    if (!data) return;
     data = this.filterData(data);
     data = this.sortData(data);
 
+    this.getDims();
+    this.setDims();
+    this.updateScaleRanges();
     this.updateScaleDomains(data);
 
     const stack = this.createStack(data, this.keys);

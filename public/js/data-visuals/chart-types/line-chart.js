@@ -88,8 +88,13 @@ export default class LineChart extends DataViz {
   }
 
   updateGraphData(data) {
+    if (!data) data = this.data;
+    if (!data) return;
     data = this.filterData(data);
 
+    this.getDims();
+    this.setDims();
+    this.updateScaleRanges();
     this.updateScaleDomains(data);
     this.line.x((d) => this.x(d.date)).y((d) => this.y(d.rating));
 
@@ -113,7 +118,7 @@ export default class LineChart extends DataViz {
       .attr("class", "circle")
       .attr("cx", (d) => this.x(d.date))
       .attr("cy", (d) => this.y(d.rating))
-      .attr("r", "6")
+      .attr("r", "5")
       .attr("fill", this.colors[1]);
 
     // Create line path
@@ -122,6 +127,7 @@ export default class LineChart extends DataViz {
     // Add axes
     const xAxis = d3
       .axisBottom(this.x)
+      .ticks(10)
       .tickFormat((d) => `${monthRef[d.getMonth()]}. ${d.getDate() + 1}`);
 
     this.xAxisGroup

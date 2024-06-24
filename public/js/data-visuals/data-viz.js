@@ -45,12 +45,15 @@ export default class DataViz {
     if (type !== "sort" && type !== "filter") return;
     if (groups.length < 1) return;
 
+    const title = type === "sort" ? "Sort by" : "Filter on";
+
     // Filter: [["color", ["white", "black"]]]
     // Sort:   [["most", ["total", "wins", "losses"]]]
     const groupEls = groups.map((group) => {
       const groupEl = document.createElement("div");
       groupEl.classList.add("options-group");
       groupEl.dataset[type] = group[0];
+      groupEl.dataset.title = title;
 
       const optionEls = group[1].map((option) => {
         const optionEl = document.createElement("button");

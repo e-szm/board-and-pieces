@@ -21,8 +21,13 @@ export default class ScatterPlot extends DataViz {
   }
 
   updateGraphData(data) {
+    if (!data) data = this.data;
+    if (!data) return;
     data = this.filterData(data);
 
+    this.getDims();
+    this.setDims();
+    this.updateScaleRanges();
     this.updateScaleDomains(data);
 
     // Select existing circles and join data

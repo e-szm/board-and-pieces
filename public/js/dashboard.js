@@ -62,6 +62,16 @@ class Dashboard {
       "submit",
       this.handleSubmitConfigure.bind(this)
     );
+
+    window
+      .matchMedia("(max-width: 70em)")
+      .addEventListener("change", this.handleChangeMQ70.bind(this));
+    window
+      .matchMedia("(max-width: 60em)")
+      .addEventListener("change", this.handleChangeMQ70.bind(this));
+    window
+      .matchMedia("(max-width: 34em)")
+      .addEventListener("change", this.handleChangeMQ34.bind(this));
   }
 
   initializeDurationStats() {
@@ -70,7 +80,7 @@ class Dashboard {
     const scatterplot = new Scatterplot(
       JSON.parse(durationStats.dataset.graphOptions)
     );
-    scatterplot.createLegend("rect", "after");
+    scatterplot.createLegend("circle", "after");
     scatterplot.createAxisLabel({
       x: "Match length (minutes)",
       y: "# of moves",
@@ -118,6 +128,7 @@ class Dashboard {
 
   async handleClickSidebar(e) {
     e.preventDefault();
+    this.toggleSidebar();
 
     const clicked = e.target;
     if (clicked.nodeName !== "BUTTON" || clicked.classList.contains("active"))
@@ -132,6 +143,33 @@ class Dashboard {
 
     await this.updateDataViz(content, action);
     this.activateClickedBtn(clicked);
+  }
+
+  handleChangeMQ70(e) {
+    if (!this.dashConfigured()) return;
+
+    this.availVizMap.forEach((viz) => {
+      if (!viz.startDateStr || !viz.endDateStr) return;
+      viz.viz.updateGraphData();
+    });
+  }
+
+  handleChangeMQ60(e) {
+    if (!this.dashConfigured()) return;
+
+    this.availVizMap.forEach((viz) => {
+      if (!viz.startDateStr || !viz.endDateStr) return;
+      viz.viz.updateGraphData();
+    });
+  }
+
+  handleChangeMQ34(e) {
+    if (!this.dashConfigured()) return;
+
+    this.availVizMap.forEach((viz) => {
+      if (!viz.startDateStr || !viz.endDateStr) return;
+      viz.viz.updateGraphData();
+    });
   }
 
   async handleSubmitConfigure(e) {
@@ -188,6 +226,12 @@ class Dashboard {
     return activatedContent;
   }
 
+  toggleSidebar() {
+    if (window.getComputedStyle(this.sidebar).position !== "fixed") return;
+
+    this.sidebar.classList.toggle("open");
+  }
+
   updateConfigDateRange(startDate) {
     let month = (startDate.getMonth() + 1).toString();
     if (month.length === 1) month = "0" + month;
@@ -228,7 +272,7 @@ class Dashboard {
     const contentId = content.id;
     let viz = this.availVizMap.get(contentId);
 
-    if (!this.startDateStr || !this.endDateStr) return;
+    if (!this.dashConfigured()) return;
     if (
       viz.startDateStr === this.startDateStr &&
       viz.endDateStr === this.endDateStr
@@ -266,6 +310,11 @@ class Dashboard {
   }
 
   // UTILITIES
+
+  dashConfigured() {
+    if (this.startDateStr && this.endDateStr) return true;
+    return false;
+  }
 
   getAbbreviatedDate(date) {
     return (
