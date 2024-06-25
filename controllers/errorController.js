@@ -24,6 +24,8 @@ const sendErrorDev = (err, req, res) => {
 
 const sendErrorProd = (err, req, res) => {
   if (err.isOperational) {
+    console.log("**********REQ***********", req);
+    console.log("**********URL***********", req.originalUrl);
     if (!req.originalUrl.startsWith("/api")) {
       return res.status(err.statusCode).render("error", {
         message: err.message,
