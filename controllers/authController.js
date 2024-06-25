@@ -209,7 +209,7 @@ exports.restrictTo =
 exports.signup = catchAsync(async function (req, res, next) {
   const { email, password, confirm_password, username } = req.body;
 
-  if (await User.exists({ username }))
+  if (await User.exists({ email }))
     return next(new AppError("You already have an account. Please login"));
 
   const player = await Player.validateOrCreatePlayer(username);
