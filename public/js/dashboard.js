@@ -257,13 +257,13 @@ class Dashboard {
     this.highlights.querySelector(".highlight-to").textContent = endAbbr;
 
     this.highlights.querySelector(".highlight-total").textContent =
-      highlights.total;
+      highlights?.total || 0;
     this.highlights.querySelector(".highlight-wins").textContent =
-      highlights.wins;
+      highlights?.wins || 0;
     this.highlights.querySelector(".highlight-draws").textContent =
-      highlights.draws;
+      highlights?.draws || 0;
     this.highlights.querySelector(".highlight-losses").textContent =
-      highlights.losses;
+      highlights?.losses || 0;
   }
 
   // DATA VIZ GENERATION
