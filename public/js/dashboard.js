@@ -133,6 +133,10 @@ class Dashboard {
     const clicked = e.target;
     if (clicked.nodeName !== "BUTTON" || clicked.classList.contains("active"))
       return;
+    if (!this.dashConfigured()) {
+      alert("error", "You must first configure the dashboard.");
+      return;
+    }
 
     const content = this.displayClickedContent(clicked);
     const action = content.dataset.graphAction;
@@ -198,8 +202,9 @@ class Dashboard {
     this.endDateStr = endDateStr;
 
     this.updateHighlightsPanel(data.data);
-    alert("success", "Dashboard generated successfully!");
+    alert("success", "Success! You may now choose a data visualization.");
     enableForm(form, "Generate");
+    this.toggleSidebar();
   }
 
   // UI CONTROLLERS

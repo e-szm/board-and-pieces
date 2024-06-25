@@ -5,7 +5,7 @@
 - const durationStatsOptions = JSON.stringify({canvasId: "#canvas--match-duration-analysis", keys: ["win", "draw", "lose"], filterGroups: [["time_class", ["rapid", "daily", "blitz", "bullet"]]], sortGroups: []})
 
 div#main.dashboard-main
-    div#summary.main-content
+    div#summary.main-content.hidden
         h3.heading.heading--tertiary Welcome to your dashboard, #{user.username}!
         p.content Before you get started, here are a few things to keep in mind:
         ul.summary-list
@@ -13,13 +13,15 @@ div#main.dashboard-main
             li On the #[strong sidebar] (left), you will find navigation options for the dashboard, including configuration and data visualizations
             li You can use the #[strong Configuration] view to specify parameters (e.g., username, date ranges) and generate a dashboard
             li The #[strong Data Visualizations] section lists available charts and graphs for you to interact with; some of these may require a minimum amount of games played to display
-    div#configuration.main-content.hidden
-        h3.heading.heading--tertiary Configure and generate a new dashboard
+    div#configuration.main-content
+        h3.heading.heading--tertiary Set your configuration to generate a new dashboard
         form#config-form.form--generate-dashboard
             fieldset.form-fieldset
                 div.input-container
                     label.input-label(for='username') Chess.com Username
                     input.input-field(id='username' type='text' required maxlength='30'  placeholder='user123' value=user.username disabled)
+                p.content
+                    em Note: Maximum range is 3 months
                 div.month-year-container
                     div.input-container
                         label.input-label(for='start-month') Start Month

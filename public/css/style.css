@@ -675,7 +675,7 @@
   }
 
   .dashboard-sidebar::after {
-    content: "\25B2";
+    content: "Change view";
     position: absolute;
     top: 0;
     right: 10px;
