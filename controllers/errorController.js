@@ -1,12 +1,5 @@
 const AppError = require("../utils/appError");
 
-const handleDuplicateError = (err, res) => {
-  sendErrorProd(
-    new AppError("Already exists", err.statusCode, err.status),
-    res
-  );
-};
-
 const sendErrorDev = (err, req, res) => {
   if (!req.originalUrl.startsWith("/api")) {
     return res.status(err.statusCode).render("error", {
@@ -24,8 +17,6 @@ const sendErrorDev = (err, req, res) => {
 
 const sendErrorProd = (err, req, res) => {
   if (err.isOperational) {
-    console.log("**********REQ***********", req);
-    console.log("**********URL***********", req.originalUrl);
     if (!req.originalUrl.startsWith("/api")) {
       return res.status(err.statusCode).render("error", {
         message: err.message,
@@ -56,6 +47,5 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
 
   if (process.env.NODE_ENV === "development") sendErrorDev(err, req, res);
-  else if (err.code === 11000) handleDuplicateError(err, res);
   else sendErrorProd(err, req, res);
 };

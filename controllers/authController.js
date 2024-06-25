@@ -209,7 +209,6 @@ exports.restrictTo =
 exports.signup = catchAsync(async function (req, res, next) {
   const { email, password, confirm_password, username } = req.body;
 
-  console.log("**********REQ BEFORE VALIDATION***********", req);
   if (await User.exists({ username }))
     return next(new AppError("You already have an account. Please login"));
 
