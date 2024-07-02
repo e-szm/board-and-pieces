@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   target: ["web", "es2020"],
 
   entry: {
@@ -18,22 +18,5 @@ module.exports = {
     path: path.resolve(__dirname, "app/public"),
     filename: "[name].js",
     assetModuleFilename: "[name][ext]",
-  },
-
-  module: {
-    rules: [
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(png|jpg)$/i,
-        type: "asset/resource",
-      },
-      {
-        test: /\.(ttf)$/i,
-        type: "asset/resource",
-      },
-    ],
   },
 };

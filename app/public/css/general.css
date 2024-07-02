@@ -57,7 +57,7 @@ Medium: 11px
 
 @font-face {
   font-family: "Outfit";
-  src: url("../fonts/Outfit-VariableFont_wght.ttf");
+  src: url("/fonts/Outfit-VariableFont_wght.ttf");
 }
 
 * {
@@ -304,7 +304,8 @@ button {
 /* //////////////////////////////////// */
 
 .logo {
-  width: 4rem;
+  width: 40px;
+  height: 40px;
 }
 
 /* //////////////////////////////////// */

@@ -1,16 +1,5 @@
 "use strict";
 
-import "../css/general.css";
-import "../css/style.css";
-
-import "../img/general/chessboard.jpg";
-import "../img/general/logo-full.png";
-import "../img/general/logo-64x64.png";
-import "../img/about/configuration.png";
-import "../img/about/duration-analysis.png";
-import "../img/about/opening-stats.png";
-import "../img/about/rating-trends.png";
-
 import logout from "./logout.js";
 
 function handleClickNav(e) {
