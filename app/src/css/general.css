@@ -55,6 +55,11 @@ Medium: 11px
   --border-radius: 9px;
 }
 
+@font-face {
+  font-family: "Outfit";
+  src: url("../fonts/Outfit-VariableFont_wght.ttf");
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -123,7 +128,7 @@ a.inline-link {
 
 .chessboard {
   background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(51, 51, 51, 0.85)),
-    url("../images/general/chessboard.jpg");
+    url("../img/general/chessboard.jpg");
   background-size: cover;
   background-position: center;
 }

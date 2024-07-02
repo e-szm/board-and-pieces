@@ -1,7 +1,7 @@
 "use strict";
 
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
-import DataViz from "./../data-viz.js";
+import DataViz from "../data-viz.js";
 
 export default class StackedBarChart extends DataViz {
   constructor(arg = {}) {
