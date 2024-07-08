@@ -733,6 +733,15 @@
 }
 
 @media (max-width: 34em) {
+  .about-container {
+    padding: 1.2rem 2.4rem;
+  }
+
+  .about-image {
+    max-width: 100%;
+    margin-bottom: 6.4rem;
+  }
+
   .dashboard {
     gap: 1.6rem;
   }
