@@ -43,12 +43,22 @@ exports.getHomepage = catchAsync(async (req, res, next) => {
 });
 
 exports.getLoginForm = catchAsync(async (req, res, next) => {
+  if (res.locals.user) {
+    res.redirect("/dashboard");
+    return;
+  }
+
   res.status(200).render("login", {
     title: "Login",
   });
 });
 
 exports.getSignupForm = catchAsync(async (req, res, next) => {
+  if (res.locals.user) {
+    res.redirect("/dashboard");
+    return;
+  }
+
   res.status(200).render("signup", {
     title: "Signup",
   });
