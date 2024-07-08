@@ -9,5 +9,5 @@ export default async function () {
   }
 
   alert("success", "Successfully logged out!");
-  location.reload(true);
+  location.assign("/");
 }

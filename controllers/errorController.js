@@ -1,5 +1,8 @@
 const AppError = require("../utils/appError");
 
+const handleJWTError = () =>
+  new AppError("You must login to access this page", 401);
+
 const sendErrorDev = (err, req, res) => {
   if (!req.originalUrl.startsWith("/api")) {
     return res.status(err.statusCode).render("error", {
@@ -47,5 +50,11 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
 
   if (process.env.NODE_ENV === "development") sendErrorDev(err, req, res);
-  else sendErrorProd(err, req, res);
+  if (process.env.NODE_ENV === "production") {
+    let newError = { ...err };
+    newError.message = err.message;
+
+    if (err.name === "JsonWebTokenError") newError = handleJWTError();
+    sendErrorProd(newError, req, res);
+  }
 };
