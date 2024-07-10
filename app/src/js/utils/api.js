@@ -13,6 +13,12 @@ export async function changePassword(obj) {
   });
 }
 
+export async function getColorAnalysis(start, end) {
+  const url = `/api/v1/matches/color-analysis/start/${start}/end/${end}`;
+
+  return await fetch(url);
+}
+
 export async function getDurationStats(start, end) {
   const url = `/api/v1/matches/duration-stats/start/${start}/end/${end}`;
 

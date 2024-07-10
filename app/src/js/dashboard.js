@@ -3,6 +3,7 @@
 import StackedBarChart from "./data-visuals/chart-types/stacked-bar-chart.js";
 import LineChart from "./data-visuals/chart-types/line-chart.js";
 import Scatterplot from "./data-visuals/chart-types/scatterplot.js";
+import PieChart from "./data-visuals/chart-types/pie-chart.js";
 import alert from "./utils/alert.js";
 import * as api from "./utils/api.js";
 import { disableForm, enableForm } from "./utils/formHelper.js";
@@ -43,6 +44,7 @@ class Dashboard {
 
     if (!this.highlights || !this.sidebar || !this.main) this.abort();
 
+    this.initializeColorAnalysis();
     this.initializeOpeningStats();
     this.initializeRatingTrends();
     this.initializeDurationStats();
@@ -72,6 +74,22 @@ class Dashboard {
     window
       .matchMedia("(max-width: 34em)")
       .addEventListener("change", this.handleChangeMQ34.bind(this));
+  }
+
+  initializeColorAnalysis() {
+    const colorAnalysis = document.getElementById("color-analysis");
+
+    const pieChart = new PieChart(
+      JSON.parse(colorAnalysis.dataset.graphOptions)
+    );
+    pieChart.createLegend("circle", "after");
+    pieChart.initializeTooltip(pieChart.canvas, "arc");
+
+    this.availVizMap.set(colorAnalysis.id, {
+      startDateStr: null,
+      endDateStr: null,
+      viz: pieChart,
+    });
   }
 
   initializeDurationStats() {
@@ -307,6 +325,9 @@ class Dashboard {
         durationStats.forEach((el) => (el.match_length = el.match_length / 60));
 
         viz.viz.bindData(durationStats);
+        break;
+      case "pieChart":
+        viz.viz.bindData(data.data.colorAnalysis);
         break;
     }
 

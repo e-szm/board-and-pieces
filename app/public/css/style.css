@@ -433,6 +433,19 @@
   padding: 0.02rem; /* 0.00 through 0.10 */
 }
 
+/* //////////////////////////////////// */
+/* Color Analysis */
+/* //////////////////////////////////// */
+
+#canvas--color-analysis {
+  width: 40rem;
+  height: 45rem;
+}
+
+#canvas--color-analysis .graph {
+  margin: 0 2rem;
+}
+
 .footer {
   height: 200px;
   width: 100%;
@@ -794,6 +807,10 @@
 
   #canvas--match-duration-analysis .axis-title--y {
     left: -23px;
+  }
+
+  #canvas--color-analysis {
+    width: 37rem;
   }
 
   .axis text {

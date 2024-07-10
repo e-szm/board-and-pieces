@@ -19,5 +19,8 @@ router
 router
   .route("/duration-stats/start/:start/end/:end")
   .get(matchController.getDurationStats);
+router
+  .route("/color-analysis/start/:start/end/:end")
+  .get(matchController.getColorAnalysis);
 
 module.exports = router;

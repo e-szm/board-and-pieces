@@ -18,6 +18,120 @@ function validateParams(params) {
   };
 }
 
+exports.getColorAnalysis = catchAsync(async (req, res, next) => {
+  const { queryStart, queryEnd } = validateParams(req.params);
+
+  const colorAnalysis = await Match.aggregate([
+    {
+      $match: {
+        player: req.user.player,
+        end_time: { $gte: queryStart, $lt: queryEnd },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          color: "$color",
+        },
+        wins: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ["$result", "win"],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        losses: {
+          $sum: {
+            $cond: [
+              {
+                $in: [
+                  "$result",
+                  [
+                    "checkmated",
+                    "timeout",
+                    "resigned",
+                    "lose",
+                    "abandoned",
+                    "kingofthehill",
+                    "threecheck",
+                    "bughousepartnerlos",
+                  ],
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        draws: {
+          $sum: {
+            $cond: [
+              {
+                $in: [
+                  "$result",
+                  [
+                    "agreed",
+                    "repetition",
+                    "stalemate",
+                    "insufficient",
+                    "50move",
+                    "timevsinsufficient",
+                  ],
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        summary: [
+          {
+            color: "$_id.color",
+            name: "wins",
+            value: "$wins",
+          },
+          {
+            color: "$_id.color",
+            name: "draws",
+            value: "$draws",
+          },
+          {
+            color: "$_id.color",
+            name: "losses",
+            value: "$losses",
+          },
+        ],
+      },
+    },
+    {
+      $unwind: "$summary",
+    },
+    {
+      $project: {
+        color: "$summary.color",
+        name: "$summary.name",
+        value: "$summary.value",
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      colorAnalysis,
+    },
+  });
+});
+
 exports.getOpeningStats = catchAsync(async function (req, res, next) {
   const { queryStart, queryEnd } = validateParams(req.params);
 

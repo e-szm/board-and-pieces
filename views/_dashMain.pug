@@ -4,6 +4,8 @@
 
 - const durationStatsOptions = JSON.stringify({canvasId: "#canvas--match-duration-analysis", keys: ["win", "draw", "lose"], filterGroups: [["time_class", ["rapid", "blitz", "bullet"]]], sortGroups: []})
 
+- const colorAnalysisOptions = JSON.stringify({canvasId: "#canvas--color-analysis", keys: ["wins", "draws", "losses"], filterGroups: [["color", ["white", "black"]]], sortGroups: []})
+
 div#main.dashboard-main
     div#summary.main-content.hidden
         h3.heading.heading--tertiary Welcome to your dashboard, #{user.username}!
@@ -82,3 +84,6 @@ div#main.dashboard-main
     div#match-duration-analysis.main-content.hidden(data-graph-type='scatterplot' data-graph-action='getDurationStats' data-graph-options=durationStatsOptions)
         div.canvas-container
             div#canvas--match-duration-analysis.canvas
+    div#color-analysis.main-content.hidden(data-graph-type='pieChart' data-graph-action='getColorAnalysis' data-graph-options=colorAnalysisOptions)
+        div.canvas-container
+            div#canvas--color-analysis.canvas
